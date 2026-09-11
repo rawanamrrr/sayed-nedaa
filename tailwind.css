@@ -1,4 +1,18 @@
 @font-face {
+  font-family: 'XB Shafigh';
+  src: url('/fonts/XB-Shafigh.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'XB Shafigh';
+  src: url('/fonts/XB-Shafigh-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
   /* @FONTWARNING[{"type":"restricted","family":"Webgency","weight":"800","style":"normal","allowsCrossOrigin":true}] */
   font-family: 'Webgency';
   src: url('https://static.tildacdn.net/tild6334-3637-4038-b535-343732613265/BeauRivage-Regular.woff') format('woff');
@@ -141,19 +155,15 @@
   transform-origin: top center;
 }
 
-/* Arabic mode uses elegant Arabic faces instead of the Latin display fonts:
-   El Messiri for headings/display text, Lateef for body copy and form fields. */
+/* Arabic mode uses XB Shafigh throughout instead of the Latin display fonts. */
 .lang-ar .font-newfonts,
-.lang-ar .font-webgency {
-  font-family: 'El Messiri', 'Amiri', 'Times New Roman', serif;
+.lang-ar .font-webgency,
+.lang-ar input,
+.lang-ar textarea,
+.lang-ar button {
+  font-family: 'XB Shafigh', 'Amiri', 'Times New Roman', serif;
 }
 
 .lang-ar .font-webgency {
   font-weight: 700;
-}
-
-.lang-ar input,
-.lang-ar textarea,
-.lang-ar button {
-  font-family: 'Lateef', 'Amiri', 'Times New Roman', serif;
 }
