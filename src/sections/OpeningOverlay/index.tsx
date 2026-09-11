@@ -118,7 +118,7 @@ async function submitToServer(payload: Record<string, string>) {
 }
 
 export const OpeningOverlay = () => {
-  const [language, setLanguage] = useState<"en" | "ar">("en");
+  const [language, setLanguage] = useState<"en" | "ar">("ar");
   const t = (key: TranslationKey) => translations[key][language];
   const toggleLanguage = () => setLanguage((prev) => (prev === "en" ? "ar" : "en"));
   const scrollToNextSection = () => {

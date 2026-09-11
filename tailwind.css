@@ -141,15 +141,19 @@
   transform-origin: top center;
 }
 
-/* Arabic mode uses a calligraphic Arabic face instead of the Latin display fonts. */
+/* Arabic mode uses elegant Arabic faces instead of the Latin display fonts:
+   El Messiri for headings/display text, Lateef for body copy and form fields. */
 .lang-ar .font-newfonts,
-.lang-ar .font-webgency,
-.lang-ar input,
-.lang-ar textarea,
-.lang-ar button {
-  font-family: 'Aref Ruqaa', 'Amiri', 'Times New Roman', serif;
+.lang-ar .font-webgency {
+  font-family: 'El Messiri', 'Amiri', 'Times New Roman', serif;
 }
 
 .lang-ar .font-webgency {
   font-weight: 700;
+}
+
+.lang-ar input,
+.lang-ar textarea,
+.lang-ar button {
+  font-family: 'Lateef', 'Amiri', 'Times New Roman', serif;
 }
