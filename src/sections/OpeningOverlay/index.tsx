@@ -167,6 +167,7 @@ export const OpeningOverlay = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [videoStarted, setVideoStarted] = useState(false);
+  const videoStartedRef = useRef(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroVideoRef = useRef<HTMLVideoElement>(null);
   const timelineFlowerRef = useRef<HTMLDivElement>(null);
@@ -300,11 +301,16 @@ export const OpeningOverlay = () => {
     // is allowed, so play immediately, then pause and rewind) instead of
     // showing a black box until playback actually starts.
     const paintFirstFrame = () => {
+      // If the user already tapped to open the envelope while this priming
+      // play() was still pending, don't pause/rewind out from under them —
+      // that race is what made the open sometimes feel slow or stuck.
+      if (videoStartedRef.current) return;
       video.muted = true;
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
+            if (videoStartedRef.current) return;
             video.pause();
             video.currentTime = 0;
           })
@@ -320,7 +326,12 @@ export const OpeningOverlay = () => {
   }, []);
 
   const startVideo = () => {
-    if (videoStarted) return;
+    // Guard with a ref, not just the `videoStarted` state: onClick and onPointerUp
+    // both fire for a single tap, and since state updates aren't synchronous, both
+    // calls could otherwise slip through and call video.play() twice back-to-back —
+    // which left the video stuck until a page refresh.
+    if (videoStartedRef.current) return;
+    videoStartedRef.current = true;
     setVideoStarted(true);
 
     const video = videoRef.current;
@@ -506,7 +517,6 @@ export const OpeningOverlay = () => {
                   role="button"
                   tabIndex={0}
                   onClick={startVideo}
-                  onPointerUp={startVideo}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") {
                       event.preventDefault();
