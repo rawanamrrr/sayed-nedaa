@@ -628,7 +628,7 @@ export const OpeningOverlay = () => {
               type="button"
               onClick={scrollToNextSection}
               aria-label={t("scrollDown")}
-              className="absolute box-border caret-transparent table outline-[3px] w-[25px] z-[3] left-[135px] top-[690px] cursor-pointer md:left-[587.5px]"
+              className="absolute box-border caret-transparent table outline-[3px] w-[25px] z-[3] left-[115px] top-[690px] cursor-pointer md:left-[567.5px]"
             >
               <div className="box-border caret-transparent table outline-[3px] w-[25px]">
                 <div className="box-border caret-transparent table-cell outline-[3px] align-middle w-full bg-center animate-bounce">
@@ -644,9 +644,11 @@ export const OpeningOverlay = () => {
               type="button"
               onClick={scrollToNextSection}
               aria-label={t("scrollDown")}
-              className="absolute text-yellow-700 box-border caret-transparent table outline-[3px] text-center w-[316px] z-[3] left-[89.5px] top-[650px] cursor-pointer md:left-[542px]"
+              className={`absolute text-yellow-700 box-border caret-transparent table outline-[3px] text-center w-[316px] z-[3] top-[650px] cursor-pointer ${
+                language === "ar" ? "left-[74.5px] md:left-[527px]" : "left-[89.5px] md:left-[542px]"
+              }`}
             >
-              <div className="text-[32px] font-light bg-cover box-border caret-transparent table-cell leading-[35px] outline-[3px] align-middle w-full bg-center font-newfonts md:bg-auto">
+              <div className="text-[24px] font-light bg-cover box-border caret-transparent table-cell leading-[27px] outline-[3px] align-middle w-full bg-center font-newfonts md:bg-auto">
                 {t("scrollDown")}
               </div>
             </button>
