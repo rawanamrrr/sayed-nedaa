@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 const WEDDING_DATE = new Date("2026-10-15T20:00:00");
-const PHOTO_DRIVE_LINK = "https://drive.google.com/drive/folders/REPLACE_WITH_YOUR_FOLDER_ID";
+const PHOTO_DRIVE_LINK = "https://drive.google.com/drive/folders/1w9xNDnUwJOzxHdMUGrq5cz4qNydjmGid";
 
 const getCountdown = () => {
   const diff = Math.max(0, WEDDING_DATE.getTime() - Date.now());
