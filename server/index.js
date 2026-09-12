@@ -1,13 +1,34 @@
-import "dotenv/config";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const distDir = path.resolve(__dirname, "..", "dist");
+const rootDir = path.resolve(__dirname, "..");
+
+// Support both .env (this repo's own convention) and .env.local (used by the
+// deploy script), so whichever one gets created on the server still works.
+dotenv.config({ path: path.join(rootDir, ".env") });
+dotenv.config({ path: path.join(rootDir, ".env.local"), override: true });
+
+function getPortFromArgs() {
+  const args = process.argv.slice(2);
+  const flagIndex = args.findIndex((a) => a === "--port" || a === "-p");
+  if (flagIndex !== -1 && args[flagIndex + 1]) return Number(args[flagIndex + 1]);
+  const inline = args.find((a) => a.startsWith("--port="));
+  if (inline) return Number(inline.split("=")[1]);
+  return null;
+}
+
+const PORT = getPortFromArgs() || process.env.PORT || 3001;
+
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
-
-const PORT = process.env.PORT || 3001;
 
 function getTransporter() {
   const user = process.env.SMTP_USER;
@@ -126,6 +147,15 @@ app.post("/api/send-email", async (req, res) => {
   }
 });
 
+// In production (behind pm2/nginx) this same process also serves the built
+// Vite site, since only one port gets proxied. `npm run build` must run first.
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  app.get(/^(?!\/api).*/, (_req, res) => {
+    res.sendFile(path.join(distDir, "index.html"));
+  });
+}
+
 app.listen(PORT, () => {
-  console.log(`Email server listening on http://localhost:${PORT}`);
+  console.log(`Server listening on http://localhost:${PORT}`);
 });
